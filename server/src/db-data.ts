@@ -1,40 +1,9 @@
-import { WidgetTypeEnum } from '../src/app/grid/grid-api.service';
-import { WacGridster } from '../src/app/grid/grid-api.service';
-
-
-export let GRIDS: WacGridster = {
-  widgets:
-    [
-      {
-        x: 0,
-        y: 0,
-        rows: 1,
-        cols: 3,
-        widgetType: WidgetTypeEnum.CALL
-      },
-      {
-        x: 0,
-        y: 1,
-        rows: 1,
-        cols: 1,
-        widgetType: WidgetTypeEnum.CALLLIST
-      },
-      {
-        x: 2,
-        y: 1,
-        rows: 1,
-        cols: 1,
-        widgetType: WidgetTypeEnum.DIRECTORY
-      }
-    ]
-};
 
 export let INIT_RELOAD: any = {
   user: {
     userName: 'test user',
     device: 'test device'
   },
-  gridster: GRIDS
 };
 
 export const COURSES = {
@@ -74,12 +43,3 @@ export const COURSES = {
 export function findCourseById(courseId: number) {
   return COURSES[courseId];
 }
-export function setGrids(grids: WacGridster) {
-
-  GRIDS.widgets = grids.widgets;
-  // INIT_RELOAD.widget = GRIDS;
-}
-
-
-
-
