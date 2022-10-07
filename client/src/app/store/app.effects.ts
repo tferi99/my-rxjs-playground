@@ -5,16 +5,22 @@ import { HttpClient } from '@angular/common/http';
 
 import {
   AppActionTypes,
-  SetName,
+  CourseReceived,
   ActionToReturn,
   EffectReturnTest,
   NoopAction
 } from './app.actions';
 import { of } from 'rxjs';
+import { CourseService } from '../services/course.service';
+
+const TARGET_COURSE_ID = 1;
 
 @Injectable()
 export class AppEffects {
-  constructor(private actions$: Actions, private http: HttpClient) {}
+  constructor(
+    private actions$: Actions,
+    private courseService: CourseService
+  ) {}
 
   @Effect()
   callWithoutError$ = this.actions$.pipe(
@@ -22,12 +28,12 @@ export class AppEffects {
     switchMap(() => {
       console.log('Calling api without error');
 
-      return this.http.get<any>(`https://swapi.co/api/people/1`).pipe(
-        map(results => results.name),
-        switchMap(name => of(new SetName(name)))
+      return this.courseService.get(TARGET_COURSE_ID).pipe(
+        map(course => course.description),
+        switchMap(description => of(new CourseReceived(description)))
       );
     }),
-    catchError(error => of(new SetName('Error!')))
+    catchError(error => of(new CourseReceived('Error!')))
   );
 
   @Effect()
@@ -36,12 +42,12 @@ export class AppEffects {
     switchMap(() => {
       console.log('Calling api with error - stop listening');
 
-      return this.http.get<any>(`https://swapi.co/apix/people/1`).pipe(
-        map(results => results.name),
-        switchMap(name => of(new SetName(name)))
+      return this.courseService.get(TARGET_COURSE_ID).pipe(
+        map(course => course.description),
+        switchMap(description => of(new CourseReceived(description)))
       );
     }),
-    catchError(error => of(new SetName('Error - You\'re doomed!')))
+    catchError(error => of(new CourseReceived('Error - You\'re doomed!')))
   );
 
   @Effect()
@@ -50,10 +56,10 @@ export class AppEffects {
     switchMap(() => {
       console.log('Calling api with error - keep listening');
 
-      return this.http.get<any>(`https://swapi.co/apix/people/1`).pipe(
-        map(results => results.name),
-        switchMap(name => of(new SetName(name))),
-        catchError(error => of(new SetName('Error but still listening!')))
+      return this.courseService.get(TARGET_COURSE_ID).pipe(
+        map(course => course.description),
+        switchMap(name => of(new CourseReceived(name))),
+        catchError(error => of(new CourseReceived('Error but still listening!')))
       );
     })
   );
@@ -64,9 +70,9 @@ export class AppEffects {
     switchMap(() => {
       console.log('Calling api with error - don\'t catch');
 
-      return this.http.get<any>(`https://swapi.co/apix/people/1`).pipe(
-        map(results => results.name),
-        switchMap(name => of(new SetName(name)))
+      return this.courseService.get(TARGET_COURSE_ID).pipe(
+        map(course => course.description),
+        switchMap(name => of(new CourseReceived(name)))
       );
     })
   );

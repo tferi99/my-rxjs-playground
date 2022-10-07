@@ -1,22 +1,22 @@
 import { Action } from '@ngrx/store';
-import { AppActionTypes, SetName, ActionToReturn } from '../app.actions';
+import { AppActionTypes, CourseReceived, ActionToReturn } from './app.actions';
 
 export interface State {
-  name: string;
+  description: string;
   someString: string;
 }
 
 export const initialState: State = {
-  name: '',
+  description: '',
   someString: null
 };
 
 export function reducer(state = initialState, action: Action): State {
   switch (action.type) {
-    case AppActionTypes.SetName: {
+    case AppActionTypes.CourseReceived: {
       return {
         ...state,
-        name: (<SetName>action).payload
+        description: (<CourseReceived>action).description
       };
     }
 
@@ -32,5 +32,5 @@ export function reducer(state = initialState, action: Action): State {
   }
 }
 
-export const getName = (state: State) => state.name;
+export const getName = (state: State) => state.description;
 export const getSomeString = (state: State) => state.someString;

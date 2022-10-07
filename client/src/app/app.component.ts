@@ -4,7 +4,7 @@ import { of, throwError, Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import { RxjsService } from './services/rxjs.service';
-import * as fromRoot from './store/reducers';
+import * as fromRoot from './store';
 import {
   CallWithoutError,
   CallWithError,
