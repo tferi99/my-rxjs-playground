@@ -2,50 +2,57 @@
 <div style="text-align:center">
   <h1>Welcome to {{ title }}!</h1>
 </div>
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">RxJS Subject for DOM event</h5>
+    <small><i>Type 'error' to generate an error</i></small>
+    <div class="row mt-4">
+      <div class="col-6">
+        <label>Search (good catch)</label>
+        <input class="form-control" (keyup)="searchTerm$.next($event.target['value'])" />
+        <pre>{{resultOk | json}}</pre>
+      </div>
+      <div class="col-6">
+        <label>Search (bad catch)</label>
+        <input class="form-control" (keyup)="searchTermError$.next($event.target['value'])" />
+        <pre>{{resultBad | json}}</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">RxJS Subject</h5>
-    <button class="btn btn-primary mr-4" (click)="pokeSubject(true)">
-      Subject True
-    </button>
-    <button class="btn btn-primary mr-4" (click)="pokeSubject(false)">
-      Subject False
-    </button>
-    <button class="btn btn-primary" (click)="errorSubject()">
-      Subject Error
-    </button>
+    <button class="btn btn-primary mr-4" (click)="pokeSubject(true)">Subject True</button>
+    <button class="btn btn-primary mr-4" (click)="pokeSubject(false)">Subject False</button>
+    <button class="btn btn-primary" (click)="errorSubject()">Subject Error</button>
   </div>
 </div>
+
 <div class="card mt-3">
   <div class="card-body">
     <h5 class="card-title">NgRx Effect</h5>
-    <button class="btn btn-primary mr-4" (click)="ngrxSuccess()">
-      Success
-    </button>
-    <button class="btn btn-primary mr-4" (click)="ngrxError()">
-      Error - Stops Listening
-    </button>
-    <button class="btn btn-primary mr-4" (click)="ngrxErrorDontCatch()">
-      Error - Don't catch error
-    </button>
-    <button class="btn btn-primary" (click)="ngrxErrorKeepListening()">
-      Error - Keeps Listening
-    </button>
-    <div class="ml-4 mt-3">{{ name$ | async }}</div>
+    <div class="row">
+      <div class="col-12">
+        <button class="btn btn-primary mr-4" (click)="ngrxSuccess()">Success</button>
+        <button class="btn btn-primary mr-4" (click)="ngrxError()">Error - Stops Listening</button>
+        <button class="btn btn-primary mr-4" (click)="ngrxErrorDontCatch()">Error - Don't catch error</button>
+        <button class="btn btn-primary" (click)="ngrxErrorKeepListening()">Error - Keeps Listening</button>
+      </div>
+    </div>
+    <div class="ml-4 mt-3">{{ description$ | async }}</div>
   </div>
 </div>
+
 <div class="card mt-3">
   <div class="card-body">
     <h5 class="card-title">NgRx Effect With and Without Return Actions</h5>
-    <button class="btn btn-primary mr-4" (click)="ngrxEffectReturnTest(0)">
-      Effect Returns Action
-    </button>
-    <button class="btn btn-primary mr-4" (click)="ngrxEffectReturnTest(1)">
-      Effect Returns Nothing
-    </button>
-    <button class="btn btn-primary mr-4" (click)="ngrxEffectReturnTest(2)">
-      Effect Returns NoOp Action
-    </button>
+    <button class="btn btn-primary mr-4" (click)="ngrxEffectReturnTest(0)">Effect Returns Action (0)</button>
+    <button class="btn btn-primary mr-4" (click)="ngrxEffectReturnTest(1)">Effect Returns Nothing (1)</button>
+    <button class="btn btn-primary mr-4" (click)="ngrxEffectReturnTest(2)">Effect Returns NoOp Action (2)</button>
     <div class="ml-4 mt-3">Result: {{ someString$ | async }}</div>
   </div>
 </div>

@@ -1,17 +1,17 @@
 import { Action } from '@ngrx/store';
 import { AppActionTypes, CourseReceived, ActionToReturn } from './app.actions';
 
-export interface State {
+export interface AppState {
   description: string;
   someString: string;
 }
 
-export const initialState: State = {
+export const initialState: AppState = {
   description: '',
   someString: null
 };
 
-export function reducer(state = initialState, action: Action): State {
+export function reducer(state = initialState, action: Action): AppState {
   switch (action.type) {
     case AppActionTypes.CourseReceived: {
       return {
@@ -32,5 +32,5 @@ export function reducer(state = initialState, action: Action): State {
   }
 }
 
-export const getName = (state: State) => state.description;
-export const getSomeString = (state: State) => state.someString;
+export const selectDescription = (state: AppState) => state.description;
+export const getSomeString = (state: AppState) => state.someString;

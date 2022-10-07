@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 import * as fromApp from './app.reducers';
 
 export interface State {
-  app: fromApp.State;
+  app: fromApp.AppState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -21,14 +21,3 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   ? []
   : [];
 
-export const getAppFeature = createFeatureSelector('app');
-
-export const getName = createSelector(
-  getAppFeature,
-  fromApp.getName
-);
-
-export const getSomeString = createSelector(
-  getAppFeature,
-  fromApp.getSomeString
-);

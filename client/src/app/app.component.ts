@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError } from 'rxjs/operators';
-import { of, throwError, Observable } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
+import { of, throwError, Observable, Subject } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import { RxjsService } from './services/rxjs.service';
@@ -12,6 +12,9 @@ import {
   CallWithErrorNotCaught,
   EffectReturnTest
 } from './store/app.actions';
+import { CourseService } from './services/course.service';
+import { Course } from './model';
+import { selectDescription, selectSomeString } from './store/app.selectors';
 
 @Component({
   selector: 'app-root',
@@ -20,15 +23,40 @@ import {
 })
 export class AppComponent implements OnInit {
   title = 'RxJS Playground';
-  name$: Observable<string>;
-  someString$: Observable<string>;
+
+  searchTerm$ = new Subject<string>();
+  searchTermError$ = new Subject<string>();
+  resultOk?: any;
+  resultBad?: any;
+
+  description$: Observable<string> = this.store.pipe(select(selectDescription));
+  someString$: Observable<string> = this.store.pipe(select(selectSomeString));
 
   constructor(
     private rxjsService: RxjsService,
+    private courseService: CourseService,
     private store: Store<fromRoot.State>
   ) {}
 
   ngOnInit(): void {
+    this.courseService.searchOk(this.searchTerm$).pipe(
+      finalize(() => console.log('searchTerm$ finalize called!'))
+    ).subscribe(
+      result => {
+        console.log('Got results from search (good catch)');
+        this.resultOk = result;
+      }
+    );
+
+    this.courseService.searchBadCatch(this.searchTermError$).pipe(
+      finalize(() => console.log('searchTermError$ (bad catch) finalize called!'))
+    ).subscribe(
+      result => {
+        console.log('Got results from search (bad catch)');
+        this.resultBad = result;
+      }
+    );
+
     this.rxjsService.subject
       .pipe(
         catchError(error => {
@@ -42,9 +70,6 @@ export class AppComponent implements OnInit {
         },
         error => console.log('Error!', error)
       );
-
-    this.name$ = this.store.pipe(select(fromRoot.getName));
-    this.someString$ = this.store.pipe(select(fromRoot.getSomeString));
   }
 
   pokeSubject(value: boolean) {

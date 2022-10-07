@@ -10,6 +10,6 @@ export class RxjsService {
   }
 
   errorSubject() {
-    this.subject.error(new Error('Rich is testing'));
+    this.subject.error(new Error('Error from Subject is testing'));
   }
 }

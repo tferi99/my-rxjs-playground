@@ -33,7 +33,7 @@ export class AppEffects {
         switchMap(description => of(new CourseReceived(description)))
       );
     }),
-    catchError(error => of(new CourseReceived('Error!')))
+    catchError(error => of(new CourseReceived('Error:' + error.message)))
   );
 
   @Effect()
@@ -42,12 +42,12 @@ export class AppEffects {
     switchMap(() => {
       console.log('Calling api with error - stop listening');
 
-      return this.courseService.get(TARGET_COURSE_ID).pipe(
+      return this.courseService.getWitErr(TARGET_COURSE_ID).pipe(
         map(course => course.description),
         switchMap(description => of(new CourseReceived(description)))
       );
     }),
-    catchError(error => of(new CourseReceived('Error - You\'re doomed!')))
+    catchError(error => of(new CourseReceived('DOOMED - Error:' + error.message)))
   );
 
   @Effect()
@@ -56,10 +56,10 @@ export class AppEffects {
     switchMap(() => {
       console.log('Calling api with error - keep listening');
 
-      return this.courseService.get(TARGET_COURSE_ID).pipe(
+      return this.courseService.getWitErr(TARGET_COURSE_ID).pipe(
         map(course => course.description),
         switchMap(name => of(new CourseReceived(name))),
-        catchError(error => of(new CourseReceived('Error but still listening!')))
+        catchError(error => of(new CourseReceived('STILL LISTENING - Error:' + error.message)))
       );
     })
   );
@@ -70,7 +70,7 @@ export class AppEffects {
     switchMap(() => {
       console.log('Calling api with error - don\'t catch');
 
-      return this.courseService.get(TARGET_COURSE_ID).pipe(
+      return this.courseService.getWitErr(TARGET_COURSE_ID).pipe(
         map(course => course.description),
         switchMap(name => of(new CourseReceived(name)))
       );
