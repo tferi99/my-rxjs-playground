@@ -29,19 +29,16 @@ export class CallWithErrorNotCaught implements Action {
 
 export class CourseReceived implements Action {
   readonly type = AppActionTypes.CourseReceived;
-
   constructor(public description: string) {}
 }
 
 export class EffectReturnTest implements Action {
   readonly type = AppActionTypes.EffectReturnTest;
-
   constructor(public payload: number) {}
 }
 
 export class ActionToReturn implements Action {
   readonly type = AppActionTypes.ActionToReturn;
-
   constructor(public payload: string) {}
 }
 

@@ -15,6 +15,7 @@ import {
 import { CourseService } from './services/course.service';
 import { Course } from './model';
 import { selectDescription, selectSomeString } from './store/app.selectors';
+import { Actions } from '@ngrx/effects';
 
 @Component({
   selector: 'app-root',
@@ -35,7 +36,8 @@ export class AppComponent implements OnInit {
   constructor(
     private rxjsService: RxjsService,
     private courseService: CourseService,
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private acrions$: Actions
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +71,12 @@ export class AppComponent implements OnInit {
           console.log('Subject value:', value);
         },
         error => console.log('Error!', error)
+      );
+
+      this.acrions$.subscribe(
+        action => console.log('actions$ emitted: ', action),
+        err => console.log('actions$ COMPLETED with error: ', err),
+        () => console.log('actions$ COMPLETED')
       );
   }
 
